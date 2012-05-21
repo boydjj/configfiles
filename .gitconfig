@@ -1,0 +1,61 @@
+[user]
+	name = Jeremy Boyd
+	email = jeremy.boyd@mapmyfitness.com
+[core]
+	excludesfile = /Users/jeremyboyd/.gitignore
+[color]
+	ui = auto
+
+[alias]
+    # Merge a branch into origin/staging and push it to origin/staging
+    # Ex: git sb PRM-100
+    stage-branch = !sh -c 'echo "Staging $1..." && git fetch && git checkout staging && git reset --hard origin/staging && git pull origin $1 && echo "Merged $1 into staging. You may run tests and deploy now."' -
+    reset-staging = !sh -c 'echo "Resetting staging and pulling in branches: $@..." && git fetch && git checkout -f staging && git reset --hard origin/blessed && git pull origin $@ && echo "Staging reset. git ph --force to push changes."' -
+    sb = !sh -c 'git stage-branch $1' -
+
+    # Do a clean checkout of origin/blessed from remote (all modifications will be deleted)
+    # Ex: git blessed
+    blessed = !sh -c 'echo "Updating blessed..." && git fetch && git checkout -f blessed && git reset --hard origin/blessed' -
+    staging = !sh -c 'echo "Updating staging..." && git fetch && git checkout -f staging && git reset --hard origin/staging' -
+    master = !sh -c 'echo "Updating master..." && git fetch && git checkout -f master && git reset --hard origin/master' -
+
+    # Do a clean branch of origin/blessed
+    # Ex: git bb PRM-100
+    branch-blessed = !sh -c 'echo "Branching $1 from blessed..." && git blessed && git checkout -b $1 && echo "Branched blessed as $1"' -
+    bb = !sh -c 'git branch-blessed $1' -
+
+    branch-master = !sh -c 'echo "Branching $1 from master..." && git master && git checkout -b $1 && echo "Branched master as $1"' -
+    bm = !sh -c 'git branch-master $1' -
+
+    # Push the current branch to origin HEAD (push head)
+    ph = push origin HEAD
+
+    # Rebase a branch with blessed
+    # Ex: git rb PRM-100
+    rebase-blessed = !sh -c 'echo "Rebasing $1 with blessed..." && git blessed && git checkout $1 && git rebase origin/blessed && echo "Rebased $1 with blessed."' -
+    rb = !sh -c 'git rebase-blessed $1' -
+
+    # Prune all remote branches
+    prune-all = !git remote | xargs -n 1 git remote prune    
+
+    # Shortcuts
+    ca = commit -a    
+    st = status
+    ci = commit
+    br = branch
+    co = checkout
+    df = diff
+    lg = log -p
+    who = shortlog -s --
+
+    # Get a list of changed files
+    changes = diff --name-status -r
+
+    # Get statistics for file changes
+    diffstat = diff --stat -r
+
+    # Track remote branch
+    track = !sh -c 'git config branch.$1.remote origin && git config branch.$1.merge refs/heads/$1' -
+    
+[push]
+	default = current

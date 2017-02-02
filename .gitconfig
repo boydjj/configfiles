@@ -2,9 +2,8 @@
 	name = Jeremy Boyd
 	email = jboyd@homeaway.com
 [alias]
-	co = checkout
-
-	master = !sh -c 'echo "Updating local copy of master..." && git fetch && git checkout -f master && git reset --hard origin/master' -
+	# Checkout master and update to the latest on origin
+	master = !sh -c 'echo "Updating local copy of master..." && git fetch origin && git checkout -f master && git reset --hard origin/master' -
 
     # Do a clean branch from origin/master
     # Ex: git bb PRM-100
@@ -25,6 +24,7 @@
     df = diff
     lg = log -p
     who = shortlog -s --
+	ph = push origin HEAD
 
     # Get a list of changed files
     changes = diff --name-status -r

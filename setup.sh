@@ -22,4 +22,13 @@ else
 	exit 1
 fi
 
+ln -s ${DIR}/.gitignore ~/.gitignore > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+	echo "Symlinked ~/.gitignore."
+else
+	echo "Could not symlink ~/.gitignore. Does it already exist?"
+	exit 1
+fi
+
 echo "Done."

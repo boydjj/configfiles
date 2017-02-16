@@ -1,6 +1,10 @@
+[core]
+	excludesfile = ~/.gitignore
+
 [user]
 	name = Jeremy Boyd
 	email = jboyd@homeaway.com
+
 [alias]
 	# Checkout master and update to the latest on origin
 	master = !sh -c 'echo "Updating local copy of master..." && git fetch origin && git checkout -f master && git reset --hard origin/master' -
@@ -37,3 +41,9 @@
 
 [apply]
 	whitespace = nowarn
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
